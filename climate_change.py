@@ -11,11 +11,11 @@ app = dash.Dash()
 
 #! data manipulation
 
-country = pd.read_csv('Dashboard/Data_climate/GlobalLandTemperaturesByCountry.csv')
-majorcity = pd.read_csv('Dashboard/Data_climate/GlobalLandTemperaturesByMajorCity.csv')
-state = pd.read_csv('Dashboard/Data_climate/GlobalLandTemperaturesByState.csv')
-globe = pd.read_csv('Dashboard/Data_climate/GlobalTemperatures.csv')
-CO2 = pd.read_csv('Dashboard/Data_climate/global_co2_emissions_per_capita.csv')
+country = pd.read_csv('Climate_Change_Dash/Data_climate/GlobalLandTemperaturesByCountry.csv')
+majorcity = pd.read_csv('Climate_Change_Dash/Data_climate/GlobalLandTemperaturesByMajorCity.csv')
+state = pd.read_csv('Climate_Change_Dash/Data_climate/GlobalLandTemperaturesByState.csv')
+globe = pd.read_csv('Climate_Change_Dash/Data_climate/GlobalTemperatures.csv')
+CO2 = pd.read_csv('Climate_Change_Dash/Data_climate/global_co2_emissions_per_capita.csv')
 
 #* unique country name to for dropdown loop
 country_name = country.Country.unique().tolist()
