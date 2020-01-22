@@ -15,8 +15,8 @@ async function drawmap(){
       let metricDataByCountry = {}
       
       dataset.forEach(d => {
-            if (d['Year'] = 2000)
-            return metricDataByCountry[d['Country']] = +d['Mean_temp_per_year'] || 0
+            if (d['Year'] == 2000)
+            return metricDataByCountry[d['Country Code']] = +d['Mean_temp_per_year'] || 0
       })  // making an object
 //*////////////////?       /////////////////////////////////////////////////////////////////////////////////
 //!////////////? Define Dimensions /////////////////////////////////////////////////////////////////////////
