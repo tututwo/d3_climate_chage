@@ -5,9 +5,9 @@ async function drawMap() {
       const countryShapes = await d3.json("./../world-geojson.json")
       const dataset = await d3.csv("./../country_code_data.csv")
       
-      console.log(countryShapes.features[0].properties.ADMIN)
-      console.log(countryShapes.features[0].properties.ADM0_A3)
-      console.log(countryShapes.features)
+      //console.log(countryShapes.features[0].properties.ADMIN)
+      //console.log(countryShapes.features[0].properties.ADM0_A3)
+      //console.log(countryShapes.features)
       const countryNameAccessor = d => d.properties["NAME"]
       const countryIdAccessor = d => d.properties["ADM0_A3"]
      // const metric = "Population growth (annual %)"
