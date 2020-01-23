@@ -14,8 +14,8 @@ async function drawMap() {
 
   // 1. Access data
 
-  const countryShapes = await d3.json("./../world-geojson.json")
-  const dataset = await d3.csv("./../country_code_data.csv")
+  const countryShapes = await d3.json("../world-geojson.json")
+  const dataset = await d3.csv("../country_code_data.csv")
 
   console.log(countryShapes.features[0].properties.ADMIN)
   console.log(countryShapes.features[0].properties.ADM0_A3)
