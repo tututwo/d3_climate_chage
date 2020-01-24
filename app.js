@@ -101,7 +101,7 @@ async function drawMap() {
     .attr("d", pathGenerator)
     .attr("fill", d => {
       const metricValue = metricDataByCountry[countryIdAccessor(d)]
-      if (typeof metricValue == "undefined") return "#e2e6e9"
+      if (typeof metricValue == "undefined") return "#f7f7f7"
       return colorScale(metricValue)
     })
 
