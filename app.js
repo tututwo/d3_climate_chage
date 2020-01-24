@@ -14,12 +14,12 @@ async function drawMap() {
 
   // 1. Access data
 
-  const countryShapes = await d3.json("../world-geojson.json")
-  const dataset = await d3.csv("../country_code_data.csv")
+  const countryShapes = await d3.json("Data_climate/world-geojson.json")
+  const dataset = await d3.csv("Data_climate/country_code_data.csv")
 
-  console.log(countryShapes.features[0].properties.ADMIN)
-  console.log(countryShapes.features[0].properties.ADM0_A3)
-  console.log(countryShapes.features)
+  //console.log(countryShapes.features[0].properties.ADMIN)
+  //console.log(countryShapes.features[0].properties.ADM0_A3)
+
   const countryNameAccessor = d => d.properties["NAME"]
   const countryIdAccessor = d => d.properties["ADM0_A3"]
   // const metric = "Population growth (annual %)"
@@ -28,7 +28,7 @@ async function drawMap() {
   // const metric = "Population density (people per sq. km of land area)"
   let metricDataByCountry = {}
   dataset.forEach(d => {
-    if (d["year"] == 2000)
+    if (d["year"] == 2012)
       return metricDataByCountry[d["Country Code"]] = +d["mean_temp_per_year"] || 0
   })
 
