@@ -14,12 +14,12 @@ body {
 }
 
 .earth {
-    fill: #a6cece;
+    fill: #f7f7f7;
     stroke: none;
 }
 
 .graticule {
-    stroke: #cadddd;
+    stroke: #afbec04b;
     fill: none;
 }
 
@@ -91,7 +91,7 @@ circle {
 }
 
 .legend-value {
-    fill: #576574;
+    fill: #745757;
     dominant-baseline: middle;
     font-size: 0.8em;
 }
