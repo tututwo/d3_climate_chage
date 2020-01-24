@@ -7,18 +7,12 @@
 //! ANIMATION using year column
 
 
-
-
-
 async function drawMap() {
 
   // 1. Access data
 
   const countryShapes = await d3.json("Data_climate/world-geojson.json")
   const dataset = await d3.csv("Data_climate/country_code_data.csv")
-
-  //console.log(countryShapes.features[0].properties.ADMIN)
-  //console.log(countryShapes.features[0].properties.ADM0_A3)
 
   const countryNameAccessor = d => d.properties["NAME"]
   const countryIdAccessor = d => d.properties["ADM0_A3"]
@@ -28,9 +22,11 @@ async function drawMap() {
   // const metric = "Population density (people per sq. km of land area)"
   let metricDataByCountry = {}
   dataset.forEach(d => {
-    if (d["year"] == 2012)
-      return metricDataByCountry[d["Country Code"]] = +d["mean_temp_per_year"] || 0
+    if (d["Year"] == 2000) {
+      metricDataByCountry[d["Country Code"]] = +d["mean_temp_per_year"] || 0
+    }
   })
+
 
   // 2. Create chart dimensions
 
@@ -209,6 +205,98 @@ async function drawMap() {
 
   function onMouseLeave() {
     tooltip.style("opacity", 0)
+  
+
+
+
+
   }
+
+
+  //TODO animation
+
+  let transition = 10000
+  let gapminder
+  let years = [...new Set(dataset.map(d => d.Year))].sort()
+  let [minYear, maxYear] = d3.extent(years)
+  let viz_year = years[0]
+  let moving = false
+  let timer
+  d3.select('#year-slider').on('input', function () {
+    update_year(+this.value)
+  })
+
+  d3.select('button#play-pause')
+    .on('click', function () {
+      let self = d3.select(this)
+      moving = !moving
+      self.text(moving ? 'Pause' : 'Play')
+      if (moving) {
+        timer = setInterval(step, transitionTime)
+      } else {
+        clearInterval(timer)
+      }
+    })
+    .text(moving ? 'Pause' : 'Play')
+
+
+  svg
+    .append('text')
+    .attr('id', 'year')
+    .attr('x', 5)
+    .attr('y', 5)
+    .attr('font-size', 30)
+    .text('')
+
+  update_year(1743)
+
+
+
+  function hide_details() {
+    let s = d3.select(this)
+    s.attr('fill-opacity', 0.4)
+    s.attr('stroke', 'black')
+    svg.selectAll('g.info').remove()
+  }
+
+  function update_year(year) {
+    if (year > maxYear || year < minYear) {
+      year = minYear
+    }
+
+    svg.select('#year').text(year)
+
+    d3.select('#year-slider').property('value', year)
+    svg
+      .selectAll('circle')
+      .data(gapminder.filter(d => +d.year == +year))
+      .join(
+        enter =>
+        enter
+        .duration(transitionTime),
+
+        update =>
+        update
+
+        .duration(transitionTime)
+
+      )
+  }
+
+  function step() {
+    let year = Number(d3.select('input#year-slider').property('value'))
+    if (moving) {
+      year = year + 5
+      if (year > maxYear || year < minYear) {
+        year = minYear
+      }
+    }
+    update_year(year)
+  }
+
+
+
+
+
 }
 drawMap()
