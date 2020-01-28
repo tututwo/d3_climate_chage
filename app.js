@@ -1,10 +1,5 @@
-//TODO  1. get country name and country code from GEOJSON
-//TODO  2. anti join to find out the unmatched names
-//TODO  3. manually change those country names 
-//TODO  4. inner/left join the temp_data to
-//!  dataset with correct country names and an additional column, country code
-
-//! ANIMATION using year column
+//TODO see my Github issue
+//! Having a hard time to write loop
 
 
 async function drawMap() {
@@ -45,7 +40,7 @@ async function drawMap() {
 
   const sphere = ({
     type: "Sphere"
-  })
+  }) //！ what is this? 
   const projection = d3.geoEqualEarth()
     .fitWidth(dimensions.boundedWidth, sphere)
 
@@ -80,8 +75,8 @@ async function drawMap() {
   const metricValueExtent = d3.extent(metricValues)
   const maxChange = d3.max([-metricValueExtent[0], metricValueExtent[1]])
   const colorScale = d3.scaleLinear()
-    .domain([-maxChange, 0, maxChange])
-    .range(["steelblue", "white", "red"])
+    .domain([-maxChange,0,maxChange])
+    .range(['white',"steelblue", "red"])
 
   // 5. Draw data
 
@@ -119,12 +114,12 @@ async function drawMap() {
   const legendTitle = legendGroup.append("text")
     .attr("y", -23)
     .attr("class", "legend-title")
-    .text("Population growth")
+    .text("Global Temperature")
 
   const legendByline = legendGroup.append("text")
     .attr("y", -9)
     .attr("class", "legend-byline")
-    .text("Percent change in 2017")
+    .text("Temperature")
 
   const defs = wrapper.append("defs")
   const legendGradientId = "legend-gradient"
@@ -183,6 +178,13 @@ async function drawMap() {
   function onMouseEnter(datum) {
     tooltip.style("opacity", 1)
 
+    d3.select('svg.small-chart')
+      .append('circle')
+      .attr('cx', 25)
+      .attr('cy', 25)
+      .attr('r', 10)
+      .style('fill', 'red')
+
     const metricValue = metricDataByCountry[countryIdAccessor(datum)]
 
     tooltip.select("#country")
@@ -205,7 +207,7 @@ async function drawMap() {
 
   function onMouseLeave() {
     tooltip.style("opacity", 0)
-  
+
 
 
 
@@ -215,84 +217,84 @@ async function drawMap() {
 
   //TODO animation
 
-  let transition = 10000
-  let gapminder
-  let years = [...new Set(dataset.map(d => d.Year))].sort()
-  let [minYear, maxYear] = d3.extent(years)
-  let viz_year = years[0]
-  let moving = false
-  let timer
-  d3.select('#year-slider').on('input', function () {
-    update_year(+this.value)
-  })
+  // let transition = 10000
+  // let gapminder
+  // let years = [...new Set(dataset.map(d => d.Year))].sort()
+  // let [minYear, maxYear] = d3.extent(years)
+  // let viz_year = years[0]
+  // let moving = false
+  // let timer
+  // d3.select('#year-slider').on('input', function () {
+  //   update_year(+this.value)
+  // })
 
-  d3.select('button#play-pause')
-    .on('click', function () {
-      let self = d3.select(this)
-      moving = !moving
-      self.text(moving ? 'Pause' : 'Play')
-      if (moving) {
-        timer = setInterval(step, transitionTime)
-      } else {
-        clearInterval(timer)
-      }
-    })
-    .text(moving ? 'Pause' : 'Play')
-
-
-  svg
-    .append('text')
-    .attr('id', 'year')
-    .attr('x', 5)
-    .attr('y', 5)
-    .attr('font-size', 30)
-    .text('')
-
-  update_year(1743)
+  // d3.select('button#play-pause')
+  //   .on('click', function () {
+  //     let self = d3.select(this)
+  //     moving = !moving
+  //     self.text(moving ? 'Pause' : 'Play')
+  //     if (moving) {
+  //       timer = setInterval(step, transitionTime)
+  //     } else {
+  //       clearInterval(timer)
+  //     }
+  //   })
+  //   .text(moving ? 'Pause' : 'Play')
 
 
+  // svg
+  //   .append('text')
+  //   .attr('id', 'year')
+  //   .attr('x', 5)
+  //   .attr('y', 5)
+  //   .attr('font-size', 30)
+  //   .text('')
 
-  function hide_details() {
-    let s = d3.select(this)
-    s.attr('fill-opacity', 0.4)
-    s.attr('stroke', 'black')
-    svg.selectAll('g.info').remove()
-  }
+  // update_year(1743)
 
-  function update_year(year) {
-    if (year > maxYear || year < minYear) {
-      year = minYear
-    }
 
-    svg.select('#year').text(year)
 
-    d3.select('#year-slider').property('value', year)
-    svg
-      .selectAll('circle')
-      .data(gapminder.filter(d => +d.year == +year))
-      .join(
-        enter =>
-        enter
-        .duration(transitionTime),
+  // function hide_details() {
+  //   let s = d3.select(this)
+  //   s.attr('fill-opacity', 0.4)
+  //   s.attr('stroke', 'black')
+  //   svg.selectAll('g.info').remove()
+  // }
 
-        update =>
-        update
+  // function update_year(year) {
+  //   if (year > maxYear || year < minYear) {
+  //     year = minYear
+  //   }
 
-        .duration(transitionTime)
+  //   svg.select('#year').text(year)
 
-      )
-  }
+  //   d3.select('#year-slider').property('value', year)
+  //   svg
+  //     .selectAll('circle')
+  //     .data(gapminder.filter(d => +d.year == +year))
+  //     .join(
+  //       enter =>
+  //       enter
+  //       .duration(transitionTime),
 
-  function step() {
-    let year = Number(d3.select('input#year-slider').property('value'))
-    if (moving) {
-      year = year + 5
-      if (year > maxYear || year < minYear) {
-        year = minYear
-      }
-    }
-    update_year(year)
-  }
+  //       update =>
+  //       update
+
+  //       .duration(transitionTime)
+
+  //     )
+  // }
+
+  // function step() {
+  //   let year = Number(d3.select('input#year-slider').property('value'))
+  //   if (moving) {
+  //     year = year + 5
+  //     if (year > maxYear || year < minYear) {
+  //       year = minYear
+  //     }
+  //   }
+  //   update_year(year)
+  // }
 
 
 
