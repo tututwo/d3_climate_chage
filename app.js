@@ -11,10 +11,7 @@ async function drawMap() {
 
   const countryNameAccessor = d => d.properties["NAME"]
   const countryIdAccessor = d => d.properties["ADM0_A3"]
-  // const metric = "Population growth (annual %)"
-  // const metric = "Net migration"
-  // const metric = "International tourism, receipts (current US$)"
-  // const metric = "Population density (people per sq. km of land area)"
+
   let metricDataByCountry = {}
   dataset.forEach(d => {
     if (d["Year"] == 2000) {
@@ -34,15 +31,11 @@ async function drawMap() {
       left: 10,
     },
   }
-  dimensions.boundedWidth = dimensions.width -
-    dimensions.margin.left -
-    dimensions.margin.right
+  dimensions.boundedWidth = dimensions.width - dimensions.margin.left - dimensions.margin.right
 
-  const sphere = ({
-    type: "Sphere"
-  }) //！ what is this? 
-  const projection = d3.geoEqualEarth()
-    .fitWidth(dimensions.boundedWidth, sphere)
+  const sphere = ({type: "Sphere"}) //！ what is this? 
+  
+  const projection = d3.geoEqualEarth().fitWidth(dimensions.boundedWidth, sphere)
 
   const pathGenerator = d3.geoPath(projection)
   const [
@@ -51,9 +44,7 @@ async function drawMap() {
   ] = pathGenerator.bounds(sphere)
 
   dimensions.boundedHeight = y1
-  dimensions.height = dimensions.boundedHeight +
-    dimensions.margin.top +
-    dimensions.margin.bottom
+  dimensions.height = dimensions.boundedHeight + dimensions.margin.top + dimensions.margin.bottom
 
   // 3. Draw canvas
 
@@ -63,11 +54,7 @@ async function drawMap() {
     .attr("height", dimensions.height)
 
   const bounds = wrapper.append("g")
-    .style("transform", `translate(${
-        dimensions.margin.left
-      }px, ${
-        dimensions.margin.top
-      }px)`)
+    .style("transform", `translate(${dimensions.margin.left}px, ${dimensions.margin.top}px)`)
 
   // 4. Create scales
 
@@ -168,6 +155,7 @@ async function drawMap() {
       .attr("r", 10)
   })
 
+
   // 7. Set up interactions
 
   countries.on("mouseenter", onMouseEnter)
@@ -209,96 +197,29 @@ async function drawMap() {
     tooltip.style("opacity", 0)
 
 
-
-
-
   }
 
 
-  //TODO animation
+  //! slider
+    //? listen to the slider
+    d3.select("#slideContainer")
+        .on('input', function(){
+            update(+this.value)
+        })
 
-  // let transition = 10000
-  // let gapminder
-  // let years = [...new Set(dataset.map(d => d.Year))].sort()
-  // let [minYear, maxYear] = d3.extent(years)
-  // let viz_year = years[0]
-  // let moving = false
-  // let timer
-  // d3.select('#year-slider').on('input', function () {
-  //   update_year(+this.value)
-  // })
-
-  // d3.select('button#play-pause')
-  //   .on('click', function () {
-  //     let self = d3.select(this)
-  //     moving = !moving
-  //     self.text(moving ? 'Pause' : 'Play')
-  //     if (moving) {
-  //       timer = setInterval(step, transitionTime)
-  //     } else {
-  //       clearInterval(timer)
-  //     }
-  //   })
-  //   .text(moving ? 'Pause' : 'Play')
-
-
-  // svg
-  //   .append('text')
-  //   .attr('id', 'year')
-  //   .attr('x', 5)
-  //   .attr('y', 5)
-  //   .attr('font-size', 30)
-  //   .text('')
-
-  // update_year(1743)
-
-
-
-  // function hide_details() {
-  //   let s = d3.select(this)
-  //   s.attr('fill-opacity', 0.4)
-  //   s.attr('stroke', 'black')
-  //   svg.selectAll('g.info').remove()
-  // }
-
-  // function update_year(year) {
-  //   if (year > maxYear || year < minYear) {
-  //     year = minYear
-  //   }
-
-  //   svg.select('#year').text(year)
-
-  //   d3.select('#year-slider').property('value', year)
-  //   svg
-  //     .selectAll('circle')
-  //     .data(gapminder.filter(d => +d.year == +year))
-  //     .join(
-  //       enter =>
-  //       enter
-  //       .duration(transitionTime),
-
-  //       update =>
-  //       update
-
-  //       .duration(transitionTime)
-
-  //     )
-  // }
-
-  // function step() {
-  //   let year = Number(d3.select('input#year-slider').property('value'))
-  //   if (moving) {
-  //     year = year + 5
-  //     if (year > maxYear || year < minYear) {
-  //       year = minYear
-  //     }
-  //   }
-  //   update_year(year)
-  // }
-
-
-
-
-
+    function update(){
+        document.getElementById("range").innerHTML = time[value];
+        inputValue = time[value];
+        d3.selectAll("path")
+            .style("fill", timeMatch);
+    }
+    
+    function initialYear(data) {
+        
+    }
 }
+
+
+
+
 drawMap()

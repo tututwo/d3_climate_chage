@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="styles.css">
     </link>
     <title>My Map</title>
+    <script src="https://unpkg.com/d3-simple-slider"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
 
 <body>
@@ -13,19 +15,22 @@
         <div id="tooltip" class="tooltip">
             <div class="tooltip-country" id="country"></div>
             <div class="tooltip-value">
-                <span id="value"></span> yearly temperature
+                <span id="value"></span> Average Temperature of the Year
             </div>
         </div>
         <!-- <svg class = 'small-chart'></svg> -->
     </div>
-    <div class="slidecontainer">
-        Year:
+    <div class="slideC  ontainer">
         <input type="range" min="1743" max="2013" value="1743" class="slider" id="year-slider" step="5" />
+        <br>
+        <span id="range">1743</span>
     </div>
-    <button id="play-pause" width="90"></button>
 
-    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+
     <script src="app.js"></script>
+
+    <p>This website was created to fulfill the requirements of Math W82: Data Visualization with D3 at Calvin University, January 2020.</p>
 </body>
 
 </html>
